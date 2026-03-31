@@ -19,7 +19,7 @@ dirs = "6"
 
 [dev-dependencies]
 eframe = { version = "0.33", default-features = false, features = ["default_fonts", "glow", "persistence"] }
-egui_dev_tools = { path = "../mnode/gaze/egui_dev_tools" }
+egui_dev_tools = { path = "../egui_dev_tools" }
 env_logger = "0.11"
 serde = { version = "1", features = ["derive"] }
 
