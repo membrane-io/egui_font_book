@@ -694,7 +694,7 @@ impl<'a> FontEntryBuilder<'a> {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn cache_dir() -> Option<std::path::PathBuf> {
-    dirs::cache_dir().map(|d| d.join("egui-font-book").join("fonts"))
+    dirs::cache_dir().map(|d| d.join("egui_font_book").join("fonts"))
 }
 
 #[cfg(not(target_arch = "wasm32"))]

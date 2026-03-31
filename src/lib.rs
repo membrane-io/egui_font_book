@@ -1,4 +1,4 @@
-//! # egui-font-book
+//! # egui_font_book
 //!
 //! An egui widget for browsing, downloading, and previewing fonts from curated
 //! online sources (Google Fonts). Useful for choosing the right font for your
