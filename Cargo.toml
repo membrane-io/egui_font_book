@@ -1,6 +1,6 @@
 [package]
 name = "egui_font_book"
-version = "0.1.0"
+version.workspace = true
 edition = "2021"
 
 [features]
@@ -8,31 +8,20 @@ default = ["persistence"]
 persistence = ["serde"]
 
 [dependencies]
-egui = "0.33"
+egui = { workspace = true }
 ehttp = "0.7"
-log = "0.4"
-serde = { version = "1", features = ["derive"], optional = true }
+log = { workspace = true }
+serde = { workspace = true, optional = true }
 ttf-parser = "0.25"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 dirs = "6"
 
 [dev-dependencies]
-eframe = { version = "0.33", default-features = false, features = ["default_fonts", "glow", "persistence"] }
-egui_dev_tools = { path = "../egui_dev_tools" }
+eframe = { workspace = true }
 env_logger = "0.11"
-serde = { version = "1", features = ["derive"] }
+serde = { workspace = true }
 
 [target.'cfg(target_arch = "wasm32")'.dev-dependencies]
-wasm-bindgen-futures = "0.4"
-web-sys = "0.3"
-
-[patch.crates-io]
-egui = { git = "https://github.com/emilk/egui", branch = "main" }
-emath = { git = "https://github.com/emilk/egui", branch = "main" }
-ecolor = { git = "https://github.com/emilk/egui", branch = "main" }
-epaint = { git = "https://github.com/emilk/egui", branch = "main" }
-epaint_default_fonts = { git = "https://github.com/emilk/egui", branch = "main" }
-eframe = { git = "https://github.com/emilk/egui", branch = "main" }
-egui-winit = { git = "https://github.com/emilk/egui", branch = "main" }
-egui_glow = { git = "https://github.com/emilk/egui", branch = "main" }
+wasm-bindgen-futures = { workspace = true }
+web-sys = { workspace = true }
