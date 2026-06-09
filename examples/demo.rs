@@ -1,5 +1,8 @@
 #![allow(unused_must_use, deprecated)]
-use eframe::egui::{self, pos2, vec2, Align2, Color32, FontId, Grid, Rect, RichText, ScrollArea, Stroke, StrokeKind, TextEdit, Ui};
+use eframe::egui::{
+    self, pos2, vec2, Align2, Color32, FontId, Grid, Rect, RichText, ScrollArea, Stroke,
+    StrokeKind, TextEdit, Ui,
+};
 use egui_dev_tools::WidgetInspect;
 use egui_font_book::{FontBookState, FontBrowser, SavedState};
 
@@ -186,288 +189,266 @@ const COMBO_ITEMS: &[&str] = &[
 
 fn widget_gallery(ui: &mut egui::Ui, state: &mut GalleryState) {
     ScrollArea::vertical().show(ui, |ui| {
-        ui.heading("Widget Gallery");
-        ui.label("Proportional font is used for all standard widgets. Monospace is used where explicitly set.");
-        ui.separator();
+    ui.heading("Widget Gallery");
+    ui.label("Proportional font is used for all standard widgets. Monospace is used where explicitly set.");
+    ui.separator();
 
-        // ── Mixed Font Section ──
-        // This section explicitly demonstrates both font types side by side.
-        ui.label(RichText::new("Mixed Fonts: Proportional + Monospace").strong().size(16.0));
-        ui.add_space(4.0);
+    // ── Mixed Font Section ──
+    // This section explicitly demonstrates both font types side by side.
+    ui.label(RichText::new("Mixed Fonts: Proportional + Monospace").strong().size(16.0));
+    ui.add_space(4.0);
 
-        egui::Frame::group(ui.style()).show(ui, |ui| {
-            ui.label("This label uses the proportional font (default).");
-            ui.monospace("This label uses the monospace font (ui.monospace).");
-            ui.add_space(4.0);
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+      ui.label("This label uses the proportional font (default).");
+      ui.monospace("This label uses the monospace font (ui.monospace).");
+      ui.add_space(4.0);
 
-            Grid::new("mixed_font_grid")
-                .num_columns(2)
-                .spacing(vec2(16.0, 4.0))
-                .show(ui, |ui| {
-                    ui.label("Property");
-                    ui.label(RichText::new("Value (monospace)").font(FontId::monospace(14.0)));
-                    ui.end_row();
+      Grid::new("mixed_font_grid").num_columns(2).spacing(vec2(16.0, 4.0)).show(ui, |ui| {
+        ui.label("Property");
+        ui.label(RichText::new("Value (monospace)").font(FontId::monospace(14.0)));
+        ui.end_row();
 
-                    ui.label("Host");
-                    ui.monospace("api-prod-us-east-1.example.com");
-                    ui.end_row();
+        ui.label("Host");
+        ui.monospace("api-prod-us-east-1.example.com");
+        ui.end_row();
 
-                    ui.label("Email");
-                    ui.monospace("ada.lovelace@analytical-engine.io");
-                    ui.end_row();
+        ui.label("Email");
+        ui.monospace("ada.lovelace@analytical-engine.io");
+        ui.end_row();
 
-                    ui.label("Endpoint");
-                    ui.monospace("https://api.example.com/v2/dashboards?sort=created&limit=50");
-                    ui.end_row();
+        ui.label("Endpoint");
+        ui.monospace("https://api.example.com/v2/dashboards?sort=created&limit=50");
+        ui.end_row();
 
-                    ui.label("Request ID");
-                    ui.monospace("req_7f3a2b1c-d4e5-6789-abcd-ef0123456789");
-                    ui.end_row();
+        ui.label("Request ID");
+        ui.monospace("req_7f3a2b1c-d4e5-6789-abcd-ef0123456789");
+        ui.end_row();
 
-                    ui.label("Status");
-                    ui.monospace("200 OK");
-                    ui.end_row();
+        ui.label("Status");
+        ui.monospace("200 OK");
+        ui.end_row();
 
-                    ui.label("Duration");
-                    ui.monospace("142.3ms");
-                    ui.end_row();
+        ui.label("Duration");
+        ui.monospace("142.3ms");
+        ui.end_row();
 
-                    ui.label("Timestamp");
-                    ui.monospace("2026-03-24T08:15:42.123Z");
-                    ui.end_row();
+        ui.label("Timestamp");
+        ui.monospace("2026-03-24T08:15:42.123Z");
+        ui.end_row();
 
-                    ui.label("File Path");
-                    ui.monospace("/var/log/app/2026-03-24/access.log.gz");
-                    ui.end_row();
+        ui.label("File Path");
+        ui.monospace("/var/log/app/2026-03-24/access.log.gz");
+        ui.end_row();
 
-                    ui.label("IP Address");
-                    ui.monospace("192.168.1.42:8080 -> 10.0.0.1:443");
-                    ui.end_row();
+        ui.label("IP Address");
+        ui.monospace("192.168.1.42:8080 -> 10.0.0.1:443");
+        ui.end_row();
 
-                    ui.label("Cost");
-                    ui.monospace("$1,234.56 (+12.3% \u{0394})");
-                    ui.end_row();
+        ui.label("Cost");
+        ui.monospace("$1,234.56 (+12.3% \u{0394})");
+        ui.end_row();
 
-                    ui.label("Expression");
-                    ui.monospace("cpu_usage >= 80% && mem_free <= 512MB");
-                    ui.end_row();
+        ui.label("Expression");
+        ui.monospace("cpu_usage >= 80% && mem_free <= 512MB");
+        ui.end_row();
 
-                    ui.label("Checksum");
-                    ui.monospace("sha256:9f86d08...c150e04a");
-                    ui.end_row();
-                });
-        });
-        ui.add_space(8.0);
-
-        // ── Log Viewer (monospace in proportional context) ──
-        ui.label(RichText::new("Log Viewer").strong().size(16.0));
-        ui.label("Filter and log lines use monospace; labels use proportional.");
-        ui.add_space(2.0);
-
-        ui.horizontal(|ui| {
-            ui.label("Filter:");
-            ui.add(
-                TextEdit::singleline(&mut state.log_filter)
-                    .font(FontId::monospace(13.0))
-                    .desired_width(200.0),
-            );
-        });
-
-        egui::Frame::group(ui.style()).show(ui, |ui| {
-            let logs = [
-                "[INFO ] 08:15:42.123  GET /api/dashboards           200  142ms",
-                "[INFO ] 08:15:42.267  POST /api/generate             202   1.8s",
-                "[WARN ] 08:15:43.001  GET /api/metrics?src=cpu       200  890ms  (slow)",
-                "[ERROR] 08:15:43.512  POST /api/widgets              500   45ms  internal error",
-                "[INFO ] 08:15:43.890  GET /api/health                200    2ms",
-                "[DEBUG] 08:15:44.001  Cache hit for dashboard_7f3a   ratio=0.87",
-                "[INFO ] 08:15:44.123  WS   /api/stream               101  upgrade",
-            ];
-            for line in logs {
-                if state.log_filter.is_empty()
-                    || line.to_lowercase().contains(&state.log_filter.to_lowercase())
-                {
-                    ui.monospace(line);
-                }
-            }
-        });
-        ui.add_space(12.0);
-
-        // ── Inline Code in Prose ──
-        ui.label(RichText::new("Inline Code in Documentation").strong().size(16.0));
-        ui.add_space(2.0);
-        ui.horizontal_wrapped(|ui| {
-            ui.spacing_mut().item_spacing.y = 0.0; // keep baseline aligned
-            ui.label("Call");
-            ui.monospace("generateDashboard(prompt)");
-            ui.label("to create a new dashboard. The function returns a");
-            ui.monospace("Promise<Dashboard>");
-            ui.label("which resolves once the AI model has produced the layout. Use");
-            ui.monospace("layout.place(widget)");
-            ui.label("to position each widget on the grid.");
-        });
-        ui.add_space(12.0);
-
-        ui.separator();
-
-        // ── Standard Widget Gallery (all proportional) ──
-        ui.label(RichText::new("Standard Widgets (Proportional Font)").strong().size(16.0));
-        ui.add_space(4.0);
-
-        // Buttons
-        ui.label(RichText::new("Buttons").strong());
-        ui.horizontal(|ui| {
-            ui.button("Primary");
-            ui.button("Secondary");
-            ui.add_enabled(false, egui::Button::new("Disabled"));
-        });
-        ui.add_space(8.0);
-
-        // Checkboxes
-        ui.label(RichText::new("Checkboxes").strong());
-        ui.checkbox(&mut state.checkbox_a, "Enable notifications");
-        ui.checkbox(&mut state.checkbox_b, "Subscribe to newsletter");
-        ui.add_space(8.0);
-
-        // Radio
-        ui.label(RichText::new("Radio Buttons").strong());
-        ui.horizontal(|ui| {
-            ui.radio_value(&mut state.radio, 0, "Low");
-            ui.radio_value(&mut state.radio, 1, "Medium");
-            ui.radio_value(&mut state.radio, 2, "High");
-            ui.radio_value(&mut state.radio, 3, "Critical");
-        });
-        ui.add_space(8.0);
-
-        // Sliders
-        ui.label(RichText::new("Sliders").strong());
-        ui.add(egui::Slider::new(&mut state.slider_f, 0.0..=100.0).text("Temperature"));
-        ui.add(egui::Slider::new(&mut state.slider_i, 0..=20).text("Count"));
-        ui.add_space(8.0);
-
-        // Text Input
-        ui.label(RichText::new("Text Input").strong());
-        ui.horizontal(|ui| {
-            ui.label("Name:");
-            ui.text_edit_singleline(&mut state.text_single);
-        });
-        ui.label("Notes:");
-        ui.add(TextEdit::multiline(&mut state.text_multi).desired_rows(3));
-        ui.add_space(8.0);
-
-        // ComboBox
-        ui.label(RichText::new("Dropdown").strong());
-        egui::ComboBox::from_label("Page")
-            .selected_text(COMBO_ITEMS[state.combo_selected])
-            .show_ui(ui, |ui| {
-                for (i, item) in COMBO_ITEMS.iter().enumerate() {
-                    ui.selectable_value(&mut state.combo_selected, i, *item);
-                }
-            });
-        ui.add_space(8.0);
-
-        // Progress
-        ui.label(RichText::new("Progress").strong());
-        ui.add(
-            egui::ProgressBar::new(state.progress)
-                .show_percentage()
-                .animate(true),
-        );
-        ui.add(egui::Slider::new(&mut state.progress, 0.0..=1.0).text("Adjust"));
-        ui.add_space(8.0);
-
-        // Toggle
-        ui.label(RichText::new("Toggle").strong());
-        ui.horizontal(|ui| {
-            ui.label("Dark mode:");
-            let label = if state.toggle { "ON" } else { "OFF" };
-            ui.toggle_value(&mut state.toggle, label);
-        });
-        ui.add_space(8.0);
-
-        // Grid / Table
-        ui.label(RichText::new("Data Grid").strong());
-        Grid::new("demo_grid")
-            .num_columns(3)
-            .spacing(vec2(20.0, 4.0))
-            .striped(true)
-            .show(ui, |ui| {
-                ui.label(RichText::new("Property").strong());
-                ui.label(RichText::new("Value").strong());
-                ui.label(RichText::new("Status").strong());
-                ui.end_row();
-
-                for (prop, val, status) in [
-                    ("CPU Usage", "47%", "Normal"),
-                    ("Memory", "8.2 GB / 16 GB", "Warning"),
-                    ("Disk", "234 GB free", "OK"),
-                    ("Network", "1.2 Gbps", "Excellent"),
-                    ("Uptime", "14d 6h 32m", "OK"),
-                ] {
-                    ui.label(prop);
-                    ui.label(val);
-                    ui.label(status);
-                    ui.end_row();
-                }
-            });
-        ui.add_space(8.0);
-
-        // Collapsing sections
-        ui.label(RichText::new("Collapsing Sections").strong());
-        ui.collapsing("System Information", |ui| {
-            ui.label("OS: macOS 15.3");
-            ui.label("Architecture: aarch64");
-            ui.label("Rust: 1.82.0-nightly");
-        });
-        ui.collapsing("Network Configuration", |ui| {
-            ui.label("Interface: en0");
-            ui.label("IP: 192.168.1.42");
-            ui.label("Gateway: 192.168.1.1");
-            ui.label("DNS: 1.1.1.1, 8.8.8.8");
-        });
-        ui.add_space(8.0);
-
-        // Form layout
-        ui.label(RichText::new("Form Layout").strong());
-        egui::Frame::group(ui.style()).show(ui, |ui| {
-            Grid::new("form_grid")
-                .num_columns(2)
-                .spacing(vec2(12.0, 6.0))
-                .show(ui, |ui| {
-                    ui.label("Name:");
-                    ui.text_edit_singleline(&mut state.name);
-                    ui.end_row();
-
-                    ui.label("Email:");
-                    ui.text_edit_singleline(&mut state.email);
-                    ui.end_row();
-
-                    ui.label("Age:");
-                    ui.add(egui::DragValue::new(&mut state.age).range(0.0..=150.0));
-                    ui.end_row();
-                });
-
-            ui.add_space(4.0);
-            ui.horizontal(|ui| {
-                ui.button("Submit");
-                ui.button("Cancel");
-                ui.button("Reset");
-            });
-        });
-        ui.add_space(8.0);
-
-        // Typography samples
-        ui.label(RichText::new("Typography Samples").strong());
-        ui.heading("The quick brown fox jumps over the lazy dog");
-        ui.label("The quick brown fox jumps over the lazy dog — Proportional");
-        ui.label(RichText::new("The quick brown fox jumps over the lazy dog — Bold").strong());
-        ui.monospace("The quick brown fox jumps over the lazy dog — Monospace");
-        ui.label(RichText::new("ABCDEFGHIJKLMNOPQRSTUVWXYZ").size(16.0));
-        ui.label(RichText::new("abcdefghijklmnopqrstuvwxyz").size(16.0));
-        ui.label(RichText::new("0123456789 !@#$%^&*()-=[]{}|;':\",./<>?").size(16.0));
-        ui.monospace("0123456789 !@#$%^&*()-=[]{}|;':\",./<>?");
-        ui.add_space(16.0);
+        ui.label("Checksum");
+        ui.monospace("sha256:9f86d08...c150e04a");
+        ui.end_row();
+      });
     });
+    ui.add_space(8.0);
+
+    // ── Log Viewer (monospace in proportional context) ──
+    ui.label(RichText::new("Log Viewer").strong().size(16.0));
+    ui.label("Filter and log lines use monospace; labels use proportional.");
+    ui.add_space(2.0);
+
+    ui.horizontal(|ui| {
+      ui.label("Filter:");
+      ui.add(TextEdit::singleline(&mut state.log_filter).font(FontId::monospace(13.0)).desired_width(200.0));
+    });
+
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+      let logs = [
+        "[INFO ] 08:15:42.123  GET /api/dashboards           200  142ms",
+        "[INFO ] 08:15:42.267  POST /api/generate             202   1.8s",
+        "[WARN ] 08:15:43.001  GET /api/metrics?src=cpu       200  890ms  (slow)",
+        "[ERROR] 08:15:43.512  POST /api/widgets              500   45ms  internal error",
+        "[INFO ] 08:15:43.890  GET /api/health                200    2ms",
+        "[DEBUG] 08:15:44.001  Cache hit for dashboard_7f3a   ratio=0.87",
+        "[INFO ] 08:15:44.123  WS   /api/stream               101  upgrade",
+      ];
+      for line in logs {
+        if state.log_filter.is_empty() || line.to_lowercase().contains(&state.log_filter.to_lowercase()) {
+          ui.monospace(line);
+        }
+      }
+    });
+    ui.add_space(12.0);
+
+    // ── Inline Code in Prose ──
+    ui.label(RichText::new("Inline Code in Documentation").strong().size(16.0));
+    ui.add_space(2.0);
+    ui.horizontal_wrapped(|ui| {
+      ui.spacing_mut().item_spacing.y = 0.0; // keep baseline aligned
+      ui.label("Call");
+      ui.monospace("generateDashboard(prompt)");
+      ui.label("to create a new dashboard. The function returns a");
+      ui.monospace("Promise<Dashboard>");
+      ui.label("which resolves once the AI model has produced the layout. Use");
+      ui.monospace("layout.place(widget)");
+      ui.label("to position each widget on the grid.");
+    });
+    ui.add_space(12.0);
+
+    ui.separator();
+
+    // ── Standard Widget Gallery (all proportional) ──
+    ui.label(RichText::new("Standard Widgets (Proportional Font)").strong().size(16.0));
+    ui.add_space(4.0);
+
+    // Buttons
+    ui.label(RichText::new("Buttons").strong());
+    ui.horizontal(|ui| {
+      ui.button("Primary");
+      ui.button("Secondary");
+      ui.add_enabled(false, egui::Button::new("Disabled"));
+    });
+    ui.add_space(8.0);
+
+    // Checkboxes
+    ui.label(RichText::new("Checkboxes").strong());
+    ui.checkbox(&mut state.checkbox_a, "Enable notifications");
+    ui.checkbox(&mut state.checkbox_b, "Subscribe to newsletter");
+    ui.add_space(8.0);
+
+    // Radio
+    ui.label(RichText::new("Radio Buttons").strong());
+    ui.horizontal(|ui| {
+      ui.radio_value(&mut state.radio, 0, "Low");
+      ui.radio_value(&mut state.radio, 1, "Medium");
+      ui.radio_value(&mut state.radio, 2, "High");
+      ui.radio_value(&mut state.radio, 3, "Critical");
+    });
+    ui.add_space(8.0);
+
+    // Sliders
+    ui.label(RichText::new("Sliders").strong());
+    ui.add(egui::Slider::new(&mut state.slider_f, 0.0..=100.0).text("Temperature"));
+    ui.add(egui::Slider::new(&mut state.slider_i, 0..=20).text("Count"));
+    ui.add_space(8.0);
+
+    // Text Input
+    ui.label(RichText::new("Text Input").strong());
+    ui.horizontal(|ui| {
+      ui.label("Name:");
+      ui.text_edit_singleline(&mut state.text_single);
+    });
+    ui.label("Notes:");
+    ui.add(TextEdit::multiline(&mut state.text_multi).desired_rows(3));
+    ui.add_space(8.0);
+
+    // ComboBox
+    ui.label(RichText::new("Dropdown").strong());
+    egui::ComboBox::from_label("Page").selected_text(COMBO_ITEMS[state.combo_selected]).show_ui(ui, |ui| {
+      for (i, item) in COMBO_ITEMS.iter().enumerate() {
+        ui.selectable_value(&mut state.combo_selected, i, *item);
+      }
+    });
+    ui.add_space(8.0);
+
+    // Progress
+    ui.label(RichText::new("Progress").strong());
+    ui.add(egui::ProgressBar::new(state.progress).show_percentage().animate(true));
+    ui.add(egui::Slider::new(&mut state.progress, 0.0..=1.0).text("Adjust"));
+    ui.add_space(8.0);
+
+    // Toggle
+    ui.label(RichText::new("Toggle").strong());
+    ui.horizontal(|ui| {
+      ui.label("Dark mode:");
+      let label = if state.toggle { "ON" } else { "OFF" };
+      ui.toggle_value(&mut state.toggle, label);
+    });
+    ui.add_space(8.0);
+
+    // Grid / Table
+    ui.label(RichText::new("Data Grid").strong());
+    Grid::new("demo_grid").num_columns(3).spacing(vec2(20.0, 4.0)).striped(true).show(ui, |ui| {
+      ui.label(RichText::new("Property").strong());
+      ui.label(RichText::new("Value").strong());
+      ui.label(RichText::new("Status").strong());
+      ui.end_row();
+
+      for (prop, val, status) in [
+        ("CPU Usage", "47%", "Normal"),
+        ("Memory", "8.2 GB / 16 GB", "Warning"),
+        ("Disk", "234 GB free", "OK"),
+        ("Network", "1.2 Gbps", "Excellent"),
+        ("Uptime", "14d 6h 32m", "OK"),
+      ] {
+        ui.label(prop);
+        ui.label(val);
+        ui.label(status);
+        ui.end_row();
+      }
+    });
+    ui.add_space(8.0);
+
+    // Collapsing sections
+    ui.label(RichText::new("Collapsing Sections").strong());
+    ui.collapsing("System Information", |ui| {
+      ui.label("OS: macOS 15.3");
+      ui.label("Architecture: aarch64");
+      ui.label("Rust: 1.82.0-nightly");
+    });
+    ui.collapsing("Network Configuration", |ui| {
+      ui.label("Interface: en0");
+      ui.label("IP: 192.168.1.42");
+      ui.label("Gateway: 192.168.1.1");
+      ui.label("DNS: 1.1.1.1, 8.8.8.8");
+    });
+    ui.add_space(8.0);
+
+    // Form layout
+    ui.label(RichText::new("Form Layout").strong());
+    egui::Frame::group(ui.style()).show(ui, |ui| {
+      Grid::new("form_grid").num_columns(2).spacing(vec2(12.0, 6.0)).show(ui, |ui| {
+        ui.label("Name:");
+        ui.text_edit_singleline(&mut state.name);
+        ui.end_row();
+
+        ui.label("Email:");
+        ui.text_edit_singleline(&mut state.email);
+        ui.end_row();
+
+        ui.label("Age:");
+        ui.add(egui::DragValue::new(&mut state.age).range(0.0..=150.0));
+        ui.end_row();
+      });
+
+      ui.add_space(4.0);
+      ui.horizontal(|ui| {
+        ui.button("Submit");
+        ui.button("Cancel");
+        ui.button("Reset");
+      });
+    });
+    ui.add_space(8.0);
+
+    // Typography samples
+    ui.label(RichText::new("Typography Samples").strong());
+    ui.heading("The quick brown fox jumps over the lazy dog");
+    ui.label("The quick brown fox jumps over the lazy dog — Proportional");
+    ui.label(RichText::new("The quick brown fox jumps over the lazy dog — Bold").strong());
+    ui.monospace("The quick brown fox jumps over the lazy dog — Monospace");
+    ui.label(RichText::new("ABCDEFGHIJKLMNOPQRSTUVWXYZ").size(16.0));
+    ui.label(RichText::new("abcdefghijklmnopqrstuvwxyz").size(16.0));
+    ui.label(RichText::new("0123456789 !@#$%^&*()-=[]{}|;':\",./<>?").size(16.0));
+    ui.monospace("0123456789 !@#$%^&*()-=[]{}|;':\",./<>?");
+    ui.add_space(16.0);
+  });
 }
 
 // ── Code Editor ───────────────────────────────────────────────────────
@@ -491,12 +472,18 @@ fn canvas_demo(ui: &mut egui::Ui) {
     let step = 40.0;
     let mut x = rect.left();
     while x < rect.right() {
-        painter.line_segment([pos2(x, rect.top()), pos2(x, rect.bottom())], Stroke::new(0.5, grid_color));
+        painter.line_segment(
+            [pos2(x, rect.top()), pos2(x, rect.bottom())],
+            Stroke::new(0.5, grid_color),
+        );
         x += step;
     }
     let mut y = rect.top();
     while y < rect.bottom() {
-        painter.line_segment([pos2(rect.left(), y), pos2(rect.right(), y)], Stroke::new(0.5, grid_color));
+        painter.line_segment(
+            [pos2(rect.left(), y), pos2(rect.right(), y)],
+            Stroke::new(0.5, grid_color),
+        );
         y += step;
     }
 
@@ -506,57 +493,173 @@ fn canvas_demo(ui: &mut egui::Ui) {
     // ── Node 1: "API Gateway" ──
     let n1 = Rect::from_center_size(c + vec2(-180.0, -120.0), vec2(200.0, 80.0));
     painter.rect_filled(n1, 6.0, Color32::from_rgb(35, 55, 80));
-    painter.rect_stroke(n1, 6.0, Stroke::new(1.0, Color32::from_rgb(70, 130, 200)), StrokeKind::Inside);
-    painter.text(n1.center_top() + vec2(0.0, 12.0), Align2::CENTER_TOP, "API Gateway", prop(16.0), Color32::WHITE);
-    painter.text(n1.center_top() + vec2(0.0, 32.0), Align2::CENTER_TOP, "POST /api/generate", mono(11.0), Color32::from_rgb(150, 200, 255));
-    painter.text(n1.center_top() + vec2(0.0, 48.0), Align2::CENTER_TOP, "latency: 142ms", mono(11.0), Color32::from_rgb(120, 170, 120));
+    painter.rect_stroke(
+        n1,
+        6.0,
+        Stroke::new(1.0, Color32::from_rgb(70, 130, 200)),
+        StrokeKind::Inside,
+    );
+    painter.text(
+        n1.center_top() + vec2(0.0, 12.0),
+        Align2::CENTER_TOP,
+        "API Gateway",
+        prop(16.0),
+        Color32::WHITE,
+    );
+    painter.text(
+        n1.center_top() + vec2(0.0, 32.0),
+        Align2::CENTER_TOP,
+        "POST /api/generate",
+        mono(11.0),
+        Color32::from_rgb(150, 200, 255),
+    );
+    painter.text(
+        n1.center_top() + vec2(0.0, 48.0),
+        Align2::CENTER_TOP,
+        "latency: 142ms",
+        mono(11.0),
+        Color32::from_rgb(120, 170, 120),
+    );
 
     // ── Node 2: "Dashboard Engine" ──
     let n2 = Rect::from_center_size(c + vec2(140.0, -120.0), vec2(200.0, 80.0));
     painter.rect_filled(n2, 6.0, Color32::from_rgb(55, 35, 70));
-    painter.rect_stroke(n2, 6.0, Stroke::new(1.0, Color32::from_rgb(160, 100, 200)), StrokeKind::Inside);
-    painter.text(n2.center_top() + vec2(0.0, 12.0), Align2::CENTER_TOP, "Dashboard Engine", prop(16.0), Color32::WHITE);
-    painter.text(n2.center_top() + vec2(0.0, 32.0), Align2::CENTER_TOP, "widgets: 12", mono(11.0), Color32::from_rgb(200, 170, 255));
-    painter.text(n2.center_top() + vec2(0.0, 48.0), Align2::CENTER_TOP, "grid: 12×8", mono(11.0), Color32::from_rgb(200, 170, 255));
+    painter.rect_stroke(
+        n2,
+        6.0,
+        Stroke::new(1.0, Color32::from_rgb(160, 100, 200)),
+        StrokeKind::Inside,
+    );
+    painter.text(
+        n2.center_top() + vec2(0.0, 12.0),
+        Align2::CENTER_TOP,
+        "Dashboard Engine",
+        prop(16.0),
+        Color32::WHITE,
+    );
+    painter.text(
+        n2.center_top() + vec2(0.0, 32.0),
+        Align2::CENTER_TOP,
+        "widgets: 12",
+        mono(11.0),
+        Color32::from_rgb(200, 170, 255),
+    );
+    painter.text(
+        n2.center_top() + vec2(0.0, 48.0),
+        Align2::CENTER_TOP,
+        "grid: 12×8",
+        mono(11.0),
+        Color32::from_rgb(200, 170, 255),
+    );
 
     // ── Connection arrow ──
     let from = pos2(n1.right(), n1.center().y);
     let to = pos2(n2.left(), n2.center().y);
-    painter.line_segment([from, to], Stroke::new(2.0, Color32::from_rgb(100, 100, 100)));
+    painter.line_segment(
+        [from, to],
+        Stroke::new(2.0, Color32::from_rgb(100, 100, 100)),
+    );
     let mid = pos2((from.x + to.x) * 0.5, from.y - 14.0);
-    painter.text(mid, Align2::CENTER_BOTTOM, "generate()", mono(10.0), Color32::from_rgb(180, 180, 180));
+    painter.text(
+        mid,
+        Align2::CENTER_BOTTOM,
+        "generate()",
+        mono(10.0),
+        Color32::from_rgb(180, 180, 180),
+    );
 
     // ── Node 3: "Metrics Store" ──
     let n3 = Rect::from_center_size(c + vec2(-180.0, 40.0), vec2(200.0, 80.0));
     painter.rect_filled(n3, 6.0, Color32::from_rgb(35, 60, 45));
-    painter.rect_stroke(n3, 6.0, Stroke::new(1.0, Color32::from_rgb(80, 180, 100)), StrokeKind::Inside);
-    painter.text(n3.center_top() + vec2(0.0, 12.0), Align2::CENTER_TOP, "Metrics Store", prop(16.0), Color32::WHITE);
-    painter.text(n3.center_top() + vec2(0.0, 32.0), Align2::CENTER_TOP, "source: cpu, mem, net", mono(11.0), Color32::from_rgb(140, 220, 160));
-    painter.text(n3.center_top() + vec2(0.0, 48.0), Align2::CENTER_TOP, "agg: p99 | avg | sum", mono(11.0), Color32::from_rgb(140, 220, 160));
+    painter.rect_stroke(
+        n3,
+        6.0,
+        Stroke::new(1.0, Color32::from_rgb(80, 180, 100)),
+        StrokeKind::Inside,
+    );
+    painter.text(
+        n3.center_top() + vec2(0.0, 12.0),
+        Align2::CENTER_TOP,
+        "Metrics Store",
+        prop(16.0),
+        Color32::WHITE,
+    );
+    painter.text(
+        n3.center_top() + vec2(0.0, 32.0),
+        Align2::CENTER_TOP,
+        "source: cpu, mem, net",
+        mono(11.0),
+        Color32::from_rgb(140, 220, 160),
+    );
+    painter.text(
+        n3.center_top() + vec2(0.0, 48.0),
+        Align2::CENTER_TOP,
+        "agg: p99 | avg | sum",
+        mono(11.0),
+        Color32::from_rgb(140, 220, 160),
+    );
 
     // ── Node 4: "Layout Grid" ──
     let n4 = Rect::from_center_size(c + vec2(140.0, 40.0), vec2(200.0, 80.0));
     painter.rect_filled(n4, 6.0, Color32::from_rgb(60, 50, 30));
-    painter.rect_stroke(n4, 6.0, Stroke::new(1.0, Color32::from_rgb(200, 170, 80)), StrokeKind::Inside);
-    painter.text(n4.center_top() + vec2(0.0, 12.0), Align2::CENTER_TOP, "Layout Grid", prop(16.0), Color32::WHITE);
-    painter.text(n4.center_top() + vec2(0.0, 32.0), Align2::CENTER_TOP, "cols=12 rows=8", mono(11.0), Color32::from_rgb(230, 200, 120));
-    painter.text(n4.center_top() + vec2(0.0, 48.0), Align2::CENTER_TOP, "placed: 4/12", mono(11.0), Color32::from_rgb(230, 200, 120));
+    painter.rect_stroke(
+        n4,
+        6.0,
+        Stroke::new(1.0, Color32::from_rgb(200, 170, 80)),
+        StrokeKind::Inside,
+    );
+    painter.text(
+        n4.center_top() + vec2(0.0, 12.0),
+        Align2::CENTER_TOP,
+        "Layout Grid",
+        prop(16.0),
+        Color32::WHITE,
+    );
+    painter.text(
+        n4.center_top() + vec2(0.0, 32.0),
+        Align2::CENTER_TOP,
+        "cols=12 rows=8",
+        mono(11.0),
+        Color32::from_rgb(230, 200, 120),
+    );
+    painter.text(
+        n4.center_top() + vec2(0.0, 48.0),
+        Align2::CENTER_TOP,
+        "placed: 4/12",
+        mono(11.0),
+        Color32::from_rgb(230, 200, 120),
+    );
 
     // ── Vertical connections ──
     painter.line_segment(
-        [pos2(n1.center().x, n1.bottom()), pos2(n3.center().x, n3.top())],
+        [
+            pos2(n1.center().x, n1.bottom()),
+            pos2(n3.center().x, n3.top()),
+        ],
         Stroke::new(1.5, Color32::from_rgb(80, 80, 80)),
     );
     painter.line_segment(
-        [pos2(n2.center().x, n2.bottom()), pos2(n4.center().x, n4.top())],
+        [
+            pos2(n2.center().x, n2.bottom()),
+            pos2(n4.center().x, n4.top()),
+        ],
         Stroke::new(1.5, Color32::from_rgb(80, 80, 80)),
     );
     painter.line_segment(
-        [pos2(n3.right(), n3.center().y), pos2(n4.left(), n4.center().y)],
+        [
+            pos2(n3.right(), n3.center().y),
+            pos2(n4.left(), n4.center().y),
+        ],
         Stroke::new(1.5, Color32::from_rgb(80, 80, 80)),
     );
     let mid2 = pos2((n3.right() + n4.left()) * 0.5, n3.center().y - 14.0);
-    painter.text(mid2, Align2::CENTER_BOTTOM, "queryMetrics()", mono(10.0), Color32::from_rgb(180, 180, 180));
+    painter.text(
+        mid2,
+        Align2::CENTER_BOTTOM,
+        "queryMetrics()",
+        mono(10.0),
+        Color32::from_rgb(180, 180, 180),
+    );
 
     // ── Title / legend at bottom ──
     let legend_y = n4.bottom() + 40.0;
@@ -591,8 +694,20 @@ fn canvas_demo(ui: &mut egui::Ui) {
         let badge = Rect::from_min_size(pos2(bx, badge_y), vec2(80.0, 36.0));
         painter.rect_filled(badge, 4.0, Color32::from_gray(30));
         painter.rect_stroke(badge, 4.0, Stroke::new(1.0, *color), StrokeKind::Inside);
-        painter.text(badge.left_top() + vec2(6.0, 4.0), Align2::LEFT_TOP, label, prop(10.0), Color32::GRAY);
-        painter.text(badge.left_top() + vec2(6.0, 17.0), Align2::LEFT_TOP, value, mono(14.0), *color);
+        painter.text(
+            badge.left_top() + vec2(6.0, 4.0),
+            Align2::LEFT_TOP,
+            label,
+            prop(10.0),
+            Color32::GRAY,
+        );
+        painter.text(
+            badge.left_top() + vec2(6.0, 17.0),
+            Align2::LEFT_TOP,
+            value,
+            mono(14.0),
+            *color,
+        );
     }
 }
 
@@ -632,9 +747,7 @@ fn unicode_explorer(ui: &mut egui::Ui) {
 
     ScrollArea::vertical().show(ui, |ui| {
         for &(name, start, end) in UNICODE_RANGES {
-            ui.label(
-                RichText::new(format!("{name}  U+{start:04X}..U+{end:04X}")).strong(),
-            );
+            ui.label(RichText::new(format!("{name}  U+{start:04X}..U+{end:04X}")).strong());
 
             let cols: usize = 16;
             Grid::new(format!("unicode_{name}"))
@@ -651,9 +764,7 @@ fn unicode_explorer(ui: &mut egui::Ui) {
                     let mut cp = start;
                     while cp <= end {
                         let row_base = cp & !0xF;
-                        ui.label(
-                            RichText::new(format!("{:04X}", row_base)).small().weak(),
-                        );
+                        ui.label(RichText::new(format!("{:04X}", row_base)).small().weak());
 
                         for col in 0..cols as u32 {
                             let code = row_base + col;

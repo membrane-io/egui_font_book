@@ -63,7 +63,9 @@ impl<'a> FontBrowser<'a> {
         if !self.state.initialized {
             self.state.initialized = true;
             // Pick up the host app's default font size from the current Body text style.
-            let host_size = ctx.global_style().text_styles
+            let host_size = ctx
+                .global_style()
+                .text_styles
                 .get(&egui::TextStyle::Body)
                 .map(|id| id.size)
                 .unwrap_or(self.state.global_font_size);
@@ -258,7 +260,11 @@ impl<'a> FontBrowser<'a> {
                         .range(-10.0..=20.0)
                         .speed(0.05)
                         .custom_formatter(|v, _| {
-                            if v >= 0.0 { format!("+{v:.0}") } else { format!("{v:.0}") }
+                            if v >= 0.0 {
+                                format!("+{v:.0}")
+                            } else {
+                                format!("{v:.0}")
+                            }
                         }),
                 )
                 .changed();
@@ -344,7 +350,9 @@ impl<'a> FontBrowser<'a> {
             t.y_offset = y_offset;
             t.y_offset_factor = y_offset_factor;
             if size_off != 0.0 {
-                self.state.font_size_offsets.insert(font_name.to_string(), size_off);
+                self.state
+                    .font_size_offsets
+                    .insert(font_name.to_string(), size_off);
             } else {
                 self.state.font_size_offsets.remove(font_name);
             }
@@ -402,7 +410,9 @@ impl<'a> FontBrowser<'a> {
                     let is_renderable = self.state.is_renderable(name);
                     let is_downloading = self.state.is_downloading(name);
                     // Check errors by active variant cache key
-                    let has_error = self.state.active_cache_key(name)
+                    let has_error = self
+                        .state
+                        .active_cache_key(name)
                         .map(|ck| self.state.errors.contains_key(ck))
                         .unwrap_or(false);
                     let tweak = self.state.tweak_for(name);
@@ -411,13 +421,15 @@ impl<'a> FontBrowser<'a> {
                     let eff_size = self.state.effective_size(name);
                     let glyph_count = self.state.glyph_count(name);
                     let active_var = self.state.active_variant(name);
-                    let variant_label = self.state.catalog[cat_idx].variants.get(active_var).map(|v| v.label.to_string()).unwrap_or_else(|| "Regular".into());
+                    let variant_label = self.state.catalog[cat_idx]
+                        .variants
+                        .get(active_var)
+                        .map(|v| v.label.to_string())
+                        .unwrap_or_else(|| "Regular".into());
 
                     let item_response = ui.push_id(format!("{label}_{list_idx}"), |ui| {
                         let frame = if is_selected && is_active {
-                            egui::Frame::NONE
-                                .fill(selection_bg(ui))
-                                .inner_margin(4.0)
+                            egui::Frame::NONE.fill(selection_bg(ui)).inner_margin(4.0)
                         } else if is_selected {
                             egui::Frame::NONE
                                 .fill(selection_bg_dim(ui))
@@ -451,8 +463,7 @@ impl<'a> FontBrowser<'a> {
                                 // Show active variant label if not Regular
                                 if variant_label != "Regular" {
                                     ui.label(
-                                        ui_text_small(&variant_label)
-                                            .color(Color32::LIGHT_BLUE),
+                                        ui_text_small(&variant_label).color(Color32::LIGHT_BLUE),
                                     );
                                 }
 
@@ -462,23 +473,20 @@ impl<'a> FontBrowser<'a> {
 
                                 // Right side: glyph count + size info
                                 if is_downloaded {
-                                    ui.with_layout(
-                                        Layout::right_to_left(Align::Center),
-                                        |ui| {
-                                            let mut info = if has_custom_tweak {
-                                                format!(
-                                                    "{:.0}px s:{:.2} y:{:.1}",
-                                                    eff_size, tweak.scale, tweak.y_offset,
-                                                )
-                                            } else {
-                                                format!("{:.0}px", eff_size)
-                                            };
-                                            if let Some(count) = glyph_count {
-                                                info = format!("{count} glyphs  {info}");
-                                            }
-                                            ui.label(ui_text_small(&info).color(Color32::GRAY));
-                                        },
-                                    );
+                                    ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                                        let mut info = if has_custom_tweak {
+                                            format!(
+                                                "{:.0}px s:{:.2} y:{:.1}",
+                                                eff_size, tweak.scale, tweak.y_offset,
+                                            )
+                                        } else {
+                                            format!("{:.0}px", eff_size)
+                                        };
+                                        if let Some(count) = glyph_count {
+                                            info = format!("{count} glyphs  {info}");
+                                        }
+                                        ui.label(ui_text_small(&info).color(Color32::GRAY));
+                                    });
                                 }
                             });
 
@@ -539,11 +547,8 @@ impl<'a> FontBrowser<'a> {
                     } else {
                         Sense::click()
                     };
-                    let click = ui.interact(
-                        item_rect,
-                        ui.id().with(("click", label, list_idx)),
-                        sense,
-                    );
+                    let click =
+                        ui.interact(item_rect, ui.id().with(("click", label, list_idx)), sense);
                     if click.clicked() {
                         self.state.active_category = category;
                         *self.state.selected_for_mut(category) = list_idx;

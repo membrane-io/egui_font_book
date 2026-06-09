@@ -42,7 +42,12 @@ macro_rules! v {
     ($label:literal, $slug:literal, $file:literal) => {
         FontVariant {
             label: Cow::Borrowed($label),
-            url: Cow::Borrowed(concat!("https://raw.githubusercontent.com/google/fonts/main/ofl/", $slug, "/", $file)),
+            url: Cow::Borrowed(concat!(
+                "https://raw.githubusercontent.com/google/fonts/main/ofl/",
+                $slug,
+                "/",
+                $file
+            )),
             cache_key: Cow::Borrowed(concat!($slug, "-", $label)),
         }
     };
@@ -123,7 +128,11 @@ pub fn catalog() -> Vec<FontEntry> {
             "Italic"      => "SpaceMono-Italic.ttf",
             "BoldItalic"  => "SpaceMono-BoldItalic.ttf"
         ),
-        mono!("Inconsolata", "inconsolata", "Inconsolata%5Bwdth,wght%5D.ttf"),
+        mono!(
+            "Inconsolata",
+            "inconsolata",
+            "Inconsolata%5Bwdth,wght%5D.ttf"
+        ),
         mono!("Anonymous Pro", "anonymouspro", "AnonymousPro-Regular.ttf",
             "Bold"        => "AnonymousPro-Bold.ttf",
             "Italic"      => "AnonymousPro-Italic.ttf",
@@ -144,12 +153,24 @@ pub fn catalog() -> Vec<FontEntry> {
         mono!("Red Hat Mono", "redhatmono", "RedHatMono%5Bwght%5D.ttf",
             "Italic" => "RedHatMono-Italic%5Bwght%5D.ttf"
         ),
-        mono!("Overpass Mono", "overpassmono", "OverpassMono%5Bwght%5D.ttf"),
-        mono!("Noto Sans Mono", "notosansmono", "NotoSansMono%5Bwdth,wght%5D.ttf"),
+        mono!(
+            "Overpass Mono",
+            "overpassmono",
+            "OverpassMono%5Bwght%5D.ttf"
+        ),
+        mono!(
+            "Noto Sans Mono",
+            "notosansmono",
+            "NotoSansMono%5Bwdth,wght%5D.ttf"
+        ),
         mono!("Ubuntu Mono", "ubuntumono", "UbuntuMono%5Bwght%5D.ttf",
             "Italic" => "UbuntuMono-Italic%5Bwght%5D.ttf"
         ),
-        mono!("Martian Mono", "martianmono", "MartianMono%5Bwdth,wght%5D.ttf"),
+        mono!(
+            "Martian Mono",
+            "martianmono",
+            "MartianMono%5Bwdth,wght%5D.ttf"
+        ),
         mono!("Cascadia Mono", "cascadiamono", "CascadiaMono%5Bwght%5D.ttf",
             "Italic" => "CascadiaMono-Italic%5Bwght%5D.ttf"
         ),
@@ -158,11 +179,12 @@ pub fn catalog() -> Vec<FontEntry> {
             category: FontCategory::Monospace,
             variants: vec![FontVariant {
                 label: Cow::Borrowed("Regular"),
-                url: Cow::Borrowed("https://raw.githubusercontent.com/eigilnikolajsen/commit-mono/main/src/fonts/fontlab/CommitMonoV143-VF.ttf"),
+                url: Cow::Borrowed(
+                    "https://raw.githubusercontent.com/eigilnikolajsen/commit-mono/main/src/fonts/fontlab/CommitMonoV143-VF.ttf",
+                ),
                 cache_key: Cow::Borrowed("Commit Mono"),
             }],
         },
-
         // ── Proportional ───────────────────────────────────────
         prop!("Roboto", "roboto", "Roboto%5Bwdth,wght%5D.ttf",
             "Italic" => "Roboto-Italic%5Bwdth,wght%5D.ttf"
@@ -211,7 +233,11 @@ pub fn catalog() -> Vec<FontEntry> {
             "Italic" => "IBMPlexSans-Italic%5Bwdth,wght%5D.ttf"
         ),
         prop!("Outfit", "outfit", "Outfit%5Bwght%5D.ttf"),
-        prop!("Space Grotesk", "spacegrotesk", "SpaceGrotesk%5Bwght%5D.ttf"),
+        prop!(
+            "Space Grotesk",
+            "spacegrotesk",
+            "SpaceGrotesk%5Bwght%5D.ttf"
+        ),
         prop!("Plus Jakarta Sans", "plusjakartasans", "PlusJakartaSans%5Bwght%5D.ttf",
             "Italic" => "PlusJakartaSans-Italic%5Bwght%5D.ttf"
         ),
