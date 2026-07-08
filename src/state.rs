@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, Mutex};
 
-use egui::{Context, FontData, FontDefinitions, FontFamily, FontId, FontTweak, TextStyle};
+use egui::{Context, FontData, FontFamily, FontId, FontTweak, TextStyle};
 
 use crate::catalog::{catalog, FontCategory, FontEntry, FontVariant};
 
