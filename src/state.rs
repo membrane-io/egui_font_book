@@ -8,7 +8,7 @@ use crate::catalog::{catalog, FontCategory, FontEntry, FontVariant};
 type SharedResult = Arc<Mutex<Option<Result<Vec<u8>, String>>>>;
 
 /// Persistable subset of FontBookState.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "persistence", derive(serde::Serialize, serde::Deserialize))]
 pub struct SavedState {
     pub applied_prop: Option<String>,
@@ -27,7 +27,7 @@ pub struct SavedState {
 }
 
 /// Serde-friendly mirror of egui::FontTweak.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "persistence", derive(serde::Serialize, serde::Deserialize))]
 pub struct FontTweakSerde {
     pub scale: f32,
@@ -57,7 +57,7 @@ impl From<FontTweakSerde> for FontTweak {
 }
 
 /// A saved preset: a snapshot of the current font configuration.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "persistence", derive(serde::Serialize, serde::Deserialize))]
 pub struct FontPreset {
     pub applied_prop: Option<String>,
