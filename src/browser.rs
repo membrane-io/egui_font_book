@@ -318,7 +318,7 @@ impl<'a> FontBrowser<'a> {
         let active_var = self.state.active_variant(font_name);
 
         if variants.len() > 1 {
-            ui.horizontal(|ui| {
+            ui.horizontal_wrapped(|ui| {
                 ui.spacing_mut().item_spacing.x = 2.0;
                 for (vi, vlabel, vcache_key) in &variants {
                     let is_active = *vi == active_var;
