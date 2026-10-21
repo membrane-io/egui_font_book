@@ -547,8 +547,11 @@ impl<'a> FontBrowser<'a> {
                     } else {
                         Sense::click()
                     };
-                    let click =
-                        ui.interact(item_rect, ui.id().with(("click", label, list_idx)), sense);
+                    let click = ui.interact(
+                        item_rect,
+                        ui.scope_id().with(("click", label, list_idx)),
+                        sense,
+                    );
                     if click.clicked() {
                         self.state.active_category = category;
                         *self.state.selected_for_mut(category) = list_idx;
